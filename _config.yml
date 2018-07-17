@@ -18,7 +18,7 @@
 ##############################
 text_skin: default # "default" (default), "dark", "forest", "ocean", "chocolate", "orange"
 highlight_theme: default # "default" (default), "tomorrow", "tomorrow-night", "tomorrow-night-eighties", "tomorrow-night-blue", "tomorrow-night-bright"
-url     : # the base hostname & protocol for your site e.g. https://www.someone.com
+url     : https://wingsgo.github.io/
 baseurl : 
 title   : WingC的博客
 description: > # this means to ignore newlines until "Language & timezone"
@@ -36,7 +36,7 @@ timezone: Asia/Shanghai # see https://en.wikipedia.org/wiki/List_of_tz_database_
 author:
   type      : # "person" (default), "organization"
   name      : 汪聪
-  url       :
+  url       : https://wingsgo.github.io/
   avatar    : https://avatars3.githubusercontent.com/u/22497357?s=400&u=660bfd25dda457faa9dd0ef68dc49a1923191ed7&v=4
   bio       : Do the right, Hope the best
   email     : 1018957763@qq.com
@@ -116,9 +116,9 @@ comments:
   gitalk:
     clientID    : 154ad8ef8349bd1a7046
     clientSecret: 8375811d2fb3fb24d484b56f1ef31d07da59bb04
-    repository  : https://github.com/WingsGo/WingsGo.github.io
+    repository  : Blog
     owner       : WingsGo
-    admin: # GitHub repo owner and collaborators, only these guys can initialize GitHub issues, IT IS A LIST.
+    admin: 
       - WingsGo
 
 
