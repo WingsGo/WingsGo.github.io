@@ -19,16 +19,16 @@
 text_skin: default # "default" (default), "dark", "forest", "ocean", "chocolate", "orange"
 highlight_theme: default # "default" (default), "tomorrow", "tomorrow-night", "tomorrow-night-eighties", "tomorrow-night-blue", "tomorrow-night-bright"
 url     : # the base hostname & protocol for your site e.g. https://www.someone.com
-baseurl : "/"# does not include hostname
+baseurl : /
 title   : WingC的博客
 description: > # this means to ignore newlines until "Language & timezone"
-  Your Site Description
+  WingC的个人博客，分享技术与生活
 
 
 ## => Language and Timezone
 ##############################
 lang: zh  # the language of your site, "en" (default, English), "zh"(简体中文), "zh-Hans"(简体中文), "zh-Hant"(繁體中文)
-timezone: # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for the available values
+timezone: Asia/Shanghai # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for the available values
 
 
 ## => Author and Social
@@ -37,15 +37,15 @@ author:
   type      : # "person" (default), "organization"
   name      : 汪聪
   url       :
-  avatar    : # path or url of avatar image
-  bio       : I am an amazing person.
+  avatar    : https://avatars3.githubusercontent.com/u/22497357?s=400&u=660bfd25dda457faa9dd0ef68dc49a1923191ed7&v=4
+  bio       : Do the right, Hope the best
   email     : 1018957763@qq.com
   facebook  : # "user_name" the last part of your profile url, e.g. https://www.facebook.com/user_name
   twitter   : # "user_name" the last part of your profile url, e.g. https://twitter.com/user_name
   github    : https://github.com/WingsGo
   linkedin  : # "user_name" the last part of your profile url, e.g. https://www.linkedin.com/in/user_name/
   googleplus: # "user_id"   the last part of your profile url, e.g. https://plus.google.com/u/0/user_id
-  weibo     : # "user_id"   the last part of your profile url, e.g. https://www.weibo.com/user_id/profile?...
+  weibo     : https://weibo.com/1763523950/profile?rightmod=1&wvr=6&mod=personinfo
   douban    : # "user_name" the last part of your profile url, e.g. https://www.douban.com/people/user_name/
 
 
@@ -81,14 +81,14 @@ toc:
 ## => Markdown Enhancements
 ##############################
 ## Mathjax
-mathjax: # false (default), true
-mathjax_autoNumber: # false (default), true
+mathjax: true
+mathjax_autoNumber: true
 
 ## Mermaid
-mermaid: # false (default), true
+mermaid: true
 
 ## Chart
-chart: # false (default), true
+chart: true
 
 
 ## => Paginate
@@ -105,7 +105,7 @@ sources: # bootcdn (default), unpkg
 ## => Comments
 ##############################
 comments:
-  provider: false # false (default), "disqus", "gitalk", "custom"
+  provider: gitalk
 
   ## Disqus
   disqus:
@@ -114,24 +114,24 @@ comments:
   ## Gitalk
   # please refer to https://github.com/gitalk/gitalk for more info.
   gitalk:
-    clientID    : # GitHub Application Client ID
-    clientSecret: # GitHub Application Client Secret
+    clientID    : 154ad8ef8349bd1a7046
+    clientSecret: 8375811d2fb3fb24d484b56f1ef31d07da59bb04
     repository  : # GitHub repo
-    owner       : # GitHub repo owner
+    owner       : WingsGo
     admin: # GitHub repo owner and collaborators, only these guys can initialize GitHub issues, IT IS A LIST.
-      # - your GitHub Id
+      - WingsGo
 
 
 ## => Pageview
 ##############################
 pageview:
-  provider: false # false (default), "leancloud", "custom"
+  provider: leancloud # false (default), "leancloud", "custom"
 
   ## Leancloud
   leancloud:
-    app_id    : # LeanCloud App id
-    app_key   : # LeanCloud App key
-    app_class : # LeanCloud App class
+    app_id    : DMeW9Gg6G8Fwqk3R1dsjTHyQ-gzGzoHsz
+    app_key   : sOTRXBWhnuVUfhCQOPjWKJKs
+    app_class : Blog
 
 
 ## => Analytics
