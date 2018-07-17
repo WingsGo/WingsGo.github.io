@@ -116,7 +116,7 @@ comments:
   gitalk:
     clientID    : 154ad8ef8349bd1a7046
     clientSecret: 8375811d2fb3fb24d484b56f1ef31d07da59bb04
-    repository  : # GitHub repo
+    repository  : WingsGo.github.io
     owner       : WingsGo
     admin: # GitHub repo owner and collaborators, only these guys can initialize GitHub issues, IT IS A LIST.
       - WingsGo
