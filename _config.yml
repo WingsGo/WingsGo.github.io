@@ -116,7 +116,7 @@ comments:
   gitalk:
     clientID    : 154ad8ef8349bd1a7046
     clientSecret: 8375811d2fb3fb24d484b56f1ef31d07da59bb04
-    repository  : Blog
+    repository  : WingsGo.github.io
     owner       : WingsGo
     admin: 
       - WingsGo
