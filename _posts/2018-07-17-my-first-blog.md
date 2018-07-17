@@ -1,7 +1,6 @@
 ---
-layout: artical
 title: 我的第一篇博客
-key: a-18-07-17-01
+key: 20180817
 tags: life
 ---
 我的第一篇博客
