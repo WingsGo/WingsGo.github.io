@@ -1,7 +1,9 @@
 ---
 title: 桌面端软件设计经验总结
 key: 20180718
-tags: life
+tags: 
+	- MVC
+	- MVVM
 ---
 # 一、MVC #
 
