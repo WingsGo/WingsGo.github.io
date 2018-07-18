@@ -1,6 +1,6 @@
 ---
 title: Git下管理多个ssh key
-key: a20180718
+key: 20180719
 tags: Git
 ---
 
