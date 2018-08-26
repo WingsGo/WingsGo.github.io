@@ -5,10 +5,9 @@ tags:
 - Binary Tree Traversal
 - Stack
 - Recursion
-
-- 二叉树的递归遍历
 ---
 
+## 二叉树的递归遍历 ##
 <!--more-->
 
     class Solution {
@@ -46,9 +45,7 @@ tags:
 	};
 
 
-- 二叉树的非递归遍历
----
-
+## 二叉树的非递归遍历 ##
 	class Solution {
 	public:
 		// 每一个节点都会被访问两次，第一次访问该节点时，先访问该节点的所有左子节点,
@@ -121,26 +118,26 @@ tags:
 	        return result;
 	    }
 
-	vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>> result;
-        if (root == nullptr)
-            return result;
-        queue<pair<TreeNode*, size_t >> util_queue;
-        util_queue.push(make_pair(root, 0));
-        while (!util_queue.empty()) {
-            auto node = util_queue.front();
-            util_queue.pop();
-
-            size_t level = node.second;
-            if (level == result.size())
-                result.push_back(vector<int>());
-
-            result[level].push_back(node.first->val);
-            if (node.first->left)
-                util_queue.push(make_pair(node.first->left, level + 1));
-            if (node.first->right)
-                util_queue.push(make_pair(node.first->right, level + 1));
-        }
-        return result;
-    }
+		vector<vector<int>> levelOrder(TreeNode* root) {
+	        vector<vector<int>> result;
+	        if (root == nullptr)
+	            return result;
+	        queue<pair<TreeNode*, size_t >> util_queue;
+	        util_queue.push(make_pair(root, 0));
+	        while (!util_queue.empty()) {
+	            auto node = util_queue.front();
+	            util_queue.pop();
+	
+	            size_t level = node.second;
+	            if (level == result.size())
+	                result.push_back(vector<int>());
+	
+	            result[level].push_back(node.first->val);
+	            if (node.first->left)
+	                util_queue.push(make_pair(node.first->left, level + 1));
+	            if (node.first->right)
+	                util_queue.push(make_pair(node.first->right, level + 1));
+	        }
+	        return result;
+	    }
 	};
