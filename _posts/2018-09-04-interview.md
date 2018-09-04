@@ -53,9 +53,73 @@ arp作用就是把一个已知的IP地址解析成mac地址，以便可以在mac
 
 ### 操作系统
 - 进程和线程的区别
+
+&nbsp;&nbsp;&nbsp;&nbsp;进程是资源分配的基本单位。线程是独立调度的基本单位。
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;1.资源：线程不占有资源，共享父进程的资源，进程有独立的地址空间，一个进程至少有一个线程。
+
+&nbsp;&nbsp;&nbsp;&nbsp;2.调度：CPU切换进程要保存原进程的上下文，然后载入要切换的进程的上下文，进程间切换的开销远比线程间切换的开销大的多。
+
+&nbsp;&nbsp;&nbsp;&nbsp;3.通信：IPC：管道（无名和有名）、消息队列、Socket、共享内存、信号、信号量。线程程间通信：全局变量、静态变量、锁机制（互斥锁、读写锁、条件变量）
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;4.系统开销：由于进程有独立的地址空间，占有资源，开启一个线程时操作系统要为进程分配内存空间、I/O等，所以开启一个进程远比开启一个线程的开销要大。
+
 - 进程与线程间的通信方式
+
+管道
+
+FIFO
+
+消息队列
+
+信号量
+
+共享存储
+
+Socket
+
+- 用户态与内核态
+- 死锁的四个必要条件
+
+&nbsp;&nbsp;&nbsp;&nbsp;互斥条件、不可剥夺条件、请求和保持条件、循环等待条件
+
+- 进程状态的切换（就绪状态（等待CPU时间）--运行状态--等待状态（等待资源））
+- 进程同步
 - 什么是缓存缓存更新算法LRU
 - 基本的linux命令
+- 读写锁的实现原理（count_mutex锁住读计数，data_mutex锁住数据，第一个读的锁住数据，读完后释放）
+
+示例
+
+    typedef int semaphore;
+	semaphore count_mutex = 1;
+	semaphore data_mutex = 1;
+	int count = 0;
+	
+	void reader() {
+	    while(TRUE) {
+	        down(&count_mutex);
+	        count++;
+	        if(count == 1) down(&data_mutex); // 第一个读者需要对数据进行加锁，防止写进程访问
+	        up(&count_mutex);
+	        read();
+	        down(&count_mutex);
+	        count--;
+	        if(count == 0) up(&data_mutex);
+	        up(&count_mutex);
+	    }
+	}
+	
+	void writer() {
+	    while(TRUE) {
+	        down(&data_mutex);
+	        write();
+	        up(&data_mutex);
+	    }
+	}
+
 
 ### 数据结构与算法
 - 链表、队列、栈、树、图、堆
