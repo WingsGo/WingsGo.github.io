@@ -1,11 +1,12 @@
 ---
-title: 动态规划题解
+title: 校招笔试题解
 key: 20180903
 tags:
 - Dynamic Programming
+- BFS
 ---
 
-## 动态规划面试题解 ##
+## 动态规划面试题解
 <!--more-->
 
 ### 网易笔试--合唱团
@@ -130,4 +131,136 @@ tags:
 	        std::cout << dp[X+Y-1][K] << std::endl;
 	    }
 	    return 0;
+	}
+
+
+## BFS题解
+
+### 网易笔试--推箱子
+大家一定玩过“推箱子”这个经典的游戏。具体规则就是在一个N*M的地图上，有1个玩家、1个箱子、1个目的地以及若干障碍，其余是空地。玩家可以往上下左右4个方向移动，但是不能移动出地图或者移动到障碍里去。如果往这个方向移动推到了箱子，箱子也会按这个方向移动一格，当然，箱子也不能被推出地图或推到障碍里。当箱子被推到目的地以后，游戏目标达成。现在告诉你游戏开始是初始的地图布局，请你求出玩家最少需要移动多少步才能够将游戏目标达成。
+输入描述:
+
+每个测试输入包含1个测试用例
+第一行输入两个数字N，M表示地图的大小。其中0<N，M<=8。
+接下来有N行，每行包含M个字符表示该行地图。其中 . 表示空地、X表示玩家、*表示箱子、#表示障碍、@表示目的地。
+每个地图必定包含1个玩家、1个箱子、1个目的地。
+
+
+
+输出描述:
+
+输出一个数字表示玩家最少需要移动多少步才能将游戏目标达成。当无论如何达成不了的时候，输出-1。
+
+
+输入例子1:
+
+4 4
+
+....
+
+..*@
+
+....
+
+.X..
+
+6 6
+
+...#..
+
+......
+
+\#*##..
+
+..##.#
+
+..X...
+
+.@#...
+
+
+输出例子1:
+
+3
+
+11
+
+    #include <queue>
+	#include <iostream>
+	#include <string>
+	
+	using namespace std;
+	
+	class Position {
+	public:
+	    Position(int x, int y, int bx, int by) : m_hx(x), m_hy(y), m_bx(bx), m_by(by) {}
+	
+	    int m_hx;
+	    int m_hy;
+	    int m_bx;
+	    int m_by;
+	};
+	
+	int main(int argc, char **argv) {
+	    size_t N, M;
+	    cin >> N >> M;
+	    vector<string> map(N, "");
+	    for (size_t row = 0; row < N; ++row) {
+	        cin >> map[row];
+	    }
+	
+	    int x_pos[4] = {-1, 1, 0, 0};
+	    int y_pos[4] = {0, 0, -1, 1};
+	    vector<vector<vector<vector<int>>>> visited(N,
+	            vector<vector<vector<int>>>(M, vector<vector<int>>(N, vector<int>(M, 0))));
+	    int h_init_x, h_init_y, b_init_x, b_init_y;
+	    int d_init_x, d_init_y;
+	
+	    for (int row = 0; row < N; ++row) {
+	        for (int col = 0; col < map[0].size(); ++col) {
+	            if (map[row][col] == 'X') {
+	                h_init_x = row;
+	                h_init_y = col;
+	            } else if (map[row][col] == '*') {
+	                b_init_x = row;
+	                b_init_y = col;
+	            } else if (map[row][col] == '@') {
+	                d_init_x = row;
+	                d_init_y = col;
+	            } else {}
+	        }
+	    }
+	
+	    visited[h_init_x][h_init_y][b_init_x][b_init_y] = 1;
+	    Position pos(h_init_x, h_init_y, b_init_x, b_init_y);
+	    queue<Position> util_queue;
+	    util_queue.push(pos);
+	    while (!util_queue.empty()) {
+	        auto front = util_queue.front();
+	        util_queue.pop();
+	
+	        if (front.m_bx == d_init_x && front.m_by == d_init_y) {
+	            cout << visited[front.m_hx][front.m_hy][front.m_bx][front.m_by] - 1;
+	            return 0;
+	        }
+	
+	        for (int i = 0; i < 4; ++i) {
+	            int hnx = front.m_hx + x_pos[i];
+	            int hny = front.m_hy + y_pos[i];
+	            if (hnx < 0 || hny < 0 || hnx >= N || hny >= M || map[hnx][hny] == '#') continue;
+	
+	            if (hnx == front.m_bx && hny == front.m_by) {
+	                int bnx = front.m_bx + x_pos[i];
+	                int bny = front.m_by + y_pos[i];
+	                if (bnx < 0 || bny < 0 || bnx >= N || bny >= M || map[bnx][bny] == '#') continue;
+	                visited[hnx][hny][bnx][bny] = visited[front.m_hx][front.m_hy][front.m_bx][front.m_by] + 1;
+	                util_queue.push(Position(hnx, hny, bnx, bny));
+	            } else {
+	                if (visited[hnx][hny][front.m_bx][front.m_by]) continue;
+	                visited[hnx][hny][front.m_bx][front.m_by] = visited[front.m_hx][front.m_hy][front.m_bx][front.m_by] + 1;
+	                util_queue.push(Position(hnx, hny, front.m_bx, front.m_by));
+	            }
+	        }
+	    }
+	    cout << -1 << endl;
 	}
