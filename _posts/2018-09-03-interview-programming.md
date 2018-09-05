@@ -133,6 +133,69 @@ tags:
 	    return 0;
 	}
 
+### 美团笔试--拼凑钱币
+链接：https://www.nowcoder.com/questionTerminal/178b912722ac42a2865057a66d4e7de2
+来源：牛客网
+
+[编程题]拼凑钱币
+
+给你六种面额 1、5、10、20、50、100 元的纸币，假设每种币值的数量都足够多，编写程序求组成N元（N为0~10000的非负整数）的不同组合的个数。
+输入描述:
+
+输入包括一个整数n(1 ≤ n ≤ 10000)
+
+
+
+输出描述:
+
+输出一个整数,表示不同的组合方案数
+
+示例1
+输入
+
+1
+
+输出
+
+1
+
+典型的完全背包问题，状态转移方程为**dp[i][j] = dp[i-1][j] + dp[i][j-coins[i]]**
+
+如果是01背包问题，状态转移方程为**dp[i][j] = dp[i-1][j] + dp[i-1][j-coins[i]]**
+
+区别在于01背包选了当前物品后就不能再次选择，而完全背包可以选择数量num(0<coins[i]*num<j)
+
+    #include <string>
+	#include <algorithm>
+	#include <iostream>
+	#include <vector>
+	
+	using namespace std;
+	
+	int main(int argc, char** argv) {
+	    int n;
+	    vector<int> coins = {1, 5, 10, 20, 50, 100};
+	    while (cin >> n) {
+	        vector<vector<long long>> dp(6, vector<long long>(n+1, 0));
+	        for (int i=0; i<6; ++i)
+	            dp[i][0] = 1;
+	        for (int j=0; j<n+1; ++j)
+	            dp[0][j] = 1;
+	        for (int i=1; i<6; ++i) {
+	            for (int j=1; j<n+1; ++j) {
+	                if (j>=coins[i])
+	                    dp[i][j] = dp[i-1][j] + dp[i][j-coins[i]];
+	                else
+	                    dp[i][j] = dp[i-1][j];
+	            }
+	        }
+	        cout << dp[5][n] << endl;
+	    }
+	    return 0;
+	}
+
+
+
 
 ## BFS题解
 
@@ -264,3 +327,96 @@ tags:
 	    }
 	    cout << -1 << endl;
 	}
+
+
+## 大数系列
+###大数加法
+链接：https://www.nowcoder.com/questionTerminal/850fde3d987f4b678171abd88cf05710
+来源：牛客网
+
+请设计一个算法能够完成两个用字符串存储的整数进行相加操作，对非法的输入则返回error
+输入描述:
+
+输入为一行，包含两个字符串，字符串的长度在[1,100]。
+
+
+
+输出描述:
+
+输出为一行。合法情况输出相加结果，非法情况输出error
+
+示例1
+输入
+
+123 123
+abd 123
+
+输出
+
+246
+Error
+
+    #include <string>
+	#include <algorithm>
+	#include <iostream>
+	
+	using namespace std;
+	
+	bool vaild_input(const string &str) {
+	    if (str.empty())
+	        return false;
+	    else if (str.size() == 1) {
+	        if (!isdigit(str[0]))
+	            return false;
+	        else
+	            return true;
+	    } else {
+	        int point_count = 0;
+	        for (size_t i = 1; i < str.size(); ++i) {
+	            if (i == 1 && !isdigit(str[i]))
+	                return false;
+	            else {
+	                if (!isdigit(str[i])) {
+	                    if (str[i] != '.') return false;
+	                    else {
+	                        point_count++;
+	                        if (point_count >= 2)return false;
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    return true;
+	}
+	
+	string big_add(string &lhs, string &rhs) {
+	    if (!vaild_input(lhs) || !vaild_input(rhs))
+	        return "error";
+	
+	    reverse(lhs.begin(), lhs.end());
+	    reverse(rhs.begin(), rhs.end());
+	    string result;
+	    size_t longer_len = lhs.size() > rhs.size() ? lhs.size() : rhs.size();
+	    size_t carry = 0;
+	    for (size_t i = 0; i < longer_len; ++i) {
+	        size_t lhs_num = i >= lhs.size() ? 0 : lhs[i] - '0';
+	        size_t rhs_num = i >= rhs.size() ? 0 : rhs[i] - '0';
+	        size_t tmp = lhs_num + rhs_num + carry;
+	        size_t mod = tmp % 10;
+	        carry = tmp / 10;
+	        result.insert(result.begin(), mod+'0');
+	    }
+	    if (carry)
+	        result.insert(result.begin(), carry+'0');
+	    return result;
+	}
+	
+	int main(int argc, char **argv) {
+	    string num_a, num_b;
+	    while (cin >> num_a >> num_b) {
+	        cout << big_add(num_a, num_b) << endl;
+	    }
+	    return 0;
+	}
+    
+    
