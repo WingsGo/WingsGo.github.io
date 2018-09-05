@@ -194,6 +194,100 @@ tags:
 	    return 0;
 	}
 
+### 美团笔试--最大矩形面积
+
+
+给定一组非负整数组成的数组h，代表一组柱状图的高度，其中每个柱子的宽度都为1。 在这组柱状图中找到能组成的最大矩形的面积（如图所示）。 入参h为一个整型数组，代表每个柱子的高度，返回面积的值。
+
+
+输入描述:
+
+输入包括两行,第一行包含一个整数n(1 ≤ n ≤ 10000)
+第二行包括n个整数,表示h数组中的每个值,h_i(1 ≤ h_i ≤ 1,000,000)
+
+
+
+输出描述:
+
+输出一个整数,表示最大的矩阵面积。
+
+
+输入例子1:
+
+6
+2 1 5 6 2 3
+
+
+输出例子1:
+
+10
+
+
+
+这道题可以用动态规划，暂时没想到，先上一个暴力解法
+
+
+    #include <string>
+	#include <algorithm>
+	#include <iostream>
+	#include <vector>
+	
+	using namespace std;
+	
+	int main(int argc, char** argv) {
+	    int n;
+	    cin >> n;
+	    vector<int> rect(n, 0);
+	    for (int i=0; i<n; ++i) {
+	        cin >> rect[i];
+	    }
+	
+	    vector<int> area(n, 0);
+	    for (int i=0; i<rect.size(); ++i) {
+	        int current_area = rect[i];
+	        for (int j=i+1; j<rect.size(); ++j) {
+	            if (rect[j] >= rect[i])
+	                current_area += rect[i];
+	            else
+	                break;
+	        }
+	        for (int j=i-1; j>=0; --j) {
+	            if (rect[j] >= rect[i])
+	                current_area += rect[i];
+	            else
+	                break;
+	        }
+	        area[i] = current_area;
+	    }
+	    cout << *max_element(area.begin(), area.end()) <<endl;
+	    return 0;
+	}
+
+使用单调栈的解法
+    
+    int largestRectangleArea(vector<int>& heights)
+	{
+	    stack<int> S;
+	    heights.push_back(0); //
+	    int res = 0;
+	
+	    for(int i = 0; i<heights.size(); i++)
+	    {
+	        if(S.empty() || heights[i] > heights[S.top()])
+	            S.push(i);
+	        else
+	        {
+	            int temp = S.top();
+	            S.pop();
+	            int j = S.top();
+	            int dist = S.empty() ? i : i-S.top() -1;
+	            res = max(res, dist * heights[temp]);
+	            i--; // set i one step back.  to make sure the bar i will be processed.
+	        }
+	    }
+	
+	    return res;
+	}
 
 
 
