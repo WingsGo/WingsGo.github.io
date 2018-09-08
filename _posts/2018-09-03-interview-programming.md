@@ -422,6 +422,33 @@ tags:
 	    cout << -1 << endl;
 	}
 
+### 剑指offer--二叉树中和为某一值得路径
+输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
+
+    class Solution {
+	private:
+	    vector<vector<int>> all_result;
+	    vector<int> tmp;
+	public:
+	    vector<vector<int> > FindPath(TreeNode* root,int expectNumber) {
+	        if (root)
+	            dfs(root, expectNumber);
+	        return all_result;
+	    }
+	
+	    void dfs(TreeNode* node, int target) {
+	        tmp.push_back(node->val);
+			// 替换判断数值语句可转化为求树的所有路径问题
+	        if (node->val == target && node->left == nullptr && node->right == nullptr)
+	            all_result.push_back(tmp);
+	        if (node->left)
+	            dfs(node->left, target - node->val);
+	        if (node->right)
+	            dfs(node->right, target - node->val);
+	        tmp.pop_back();
+	    }
+	};
+
 
 ## 大数系列
 ###大数加法
