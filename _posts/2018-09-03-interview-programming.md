@@ -593,5 +593,46 @@ Error
 	    }
 	    return 0;
 	}
+
+## 递归与回溯
+### 头条笔试--还原IP
+Given a string containing only digits, restore it by returning all possible valid IP address combinations.
+
+Example:
+
+Input: "25525511135"
+Output: ["255.255.11.135", "255.255.111.35"]
+
+    class Solution {
+	public:
+	    vector<string> restoreIpAddresses(string s) {
+	        vector<string> res;
+	        restore(s, 4, "", res);
+			
+			// 移除所有还原结果最后的.字符
+	        for (auto& i : res)
+	            i.erase(i.end() - 1);
+	        return res;
+	    }
+	
+		// s表示待分割的字符串，k表示要把s分为几部分，out表示之前分割的结果， res存储所有的还原结果
+	    void restore(string s, int k, string out, vector<string> &res) {
+	        if (k == 0) {
+	            if (s.empty()) res.push_back(out);
+	        } else {
+	            for (int i = 1; i <= 3; ++i) {
+	                if (s.size() >= i && isValid(s.substr(0, i))) {
+	                        restore(s.substr(i), k - 1, out + s.substr(0, i) + ".", res);
+	                }
+	            }
+	        }
+	    }
+	
+	    bool isValid(string s) {
+	        if (s.empty() || s.size() > 3 || (s.size() > 1 && s[0] == '0')) return false;
+	        int res = atoi(s.c_str());
+	        return res <= 255 && res >= 0;
+	    }
+	};
     
     
