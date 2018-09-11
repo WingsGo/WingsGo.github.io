@@ -289,6 +289,60 @@ tags:
 	    return res;
 	}
 
+### 迅雷笔试--整数求和
+[编程题] 整数求和
+
+时间限制：1秒
+
+空间限制：131072K
+给定整数n，取若干个1到n的整数可求和等于整数m，编程求出所有组合的个数。比如当n=6，m=8时，有四种组合：[2,6], [3,5], [1,2,5], [1,3,4]。限定n和m小于120
+输入描述:
+
+整数n和m
+
+
+
+输出描述:
+
+求和等于m的所有组合的个数。
+
+
+输入例子1:
+
+6 8
+
+
+输出例子1:
+
+4
+
+典型的01背包问题，可以和之前的拼凑钱币问题做一个比较，如果此时可以取相同的数，那么就变为完全背包问题，和拼凑钱币解法一样。
+
+    #include <bits/stdc++.h>
+
+	using namespace std;
+	
+	int main(int argc, char **argv) {
+	    int n, m;
+	    cin >> n >> m;
+	    vector<vector<int>> dp(n, vector<int>(m + 1, 0));
+	    for (int i = 0; i < n; ++i)
+	        dp[i][0] = 1;
+	    dp[0][1] = 1;
+	
+	    for (int i = 1; i < n; ++i) {
+	        for (int j = 1; j < m + 1; ++j) {
+	            if (j - i - 1 >= 0)
+	                dp[i][j] = dp[i - 1][j] + dp[i - 1][j - i - 1];
+	            else
+	                dp[i][j] = dp[i - 1][j];
+	        }
+	    }
+	    cout << dp[n-1][m] << endl;
+	
+	    return 0;
+	}
+
 
 
 ## BFS题解
