@@ -653,6 +653,44 @@ Error
 	}
 
 
+### 大数乘法
+	string str_multiplies(const string& lhs, const string& rhs) {
+	    if (lhs.empty() || rhs.empty())
+		return "";
+	    if (lhs=="0" || rhs=="0")
+		return "0";
+
+	    vector<vector<int>> result(rhs.size(), vector<int>(rhs.size() + lhs.size() - 1));
+	    for (int i=rhs.size() - 1; i>=0; --i) {
+		for (int j=lhs.size() - 1; j>=0; --j) 
+		    result[rhs.size() - i - 1][rhs.size() + lhs.size() - i - j - 2] = (lhs[j] - '0') * (rhs[i] - '0');
+	    }
+	    vector<int> solution;
+	    for (int col = 0; col<result[0].size(); ++col) {
+		int sum = 0;
+		for (int row = 0; row<result.size(); ++row) {
+		    sum += result[row][col];
+		}
+		solution.push_back(sum);
+	    }
+	    for (int i=0; i<solution.size() - 1; ++i) {
+		if (solution[i] >= 10) {
+		    solution[i + 1] += solution[i] / 10;
+		    solution[i] %= 10;
+		}
+	    }
+	    if (solution[solution.size() - 1] >= 10) {
+		solution.push_back(solution[solution.size() - 1] / 10);
+		solution[solution.size() - 2] %= 10;
+	    }
+	    reverse(solution.begin(), solution.end());
+	    string str_solution;
+	    for (int i=0; i<solution.size(); ++i)
+		str_solution.push_back(static_cast<char>(solution[i] + '0'));
+
+	    return str_solution;
+	}
+
 ## 递归与回溯
 ### 头条笔试--还原IP
 Given a string containing only digits, restore it by returning all possible valid IP address combinations.
@@ -693,3 +731,4 @@ Output: ["255.255.11.135", "255.255.111.35"]
 	        return res <= 255 && res >= 0;
 	    }
 	};
+	
