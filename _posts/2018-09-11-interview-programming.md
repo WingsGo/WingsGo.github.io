@@ -344,6 +344,64 @@ tags:
 	}
 
 
+### 网易笔试--买苹果
+小易去附近的商店买苹果，奸诈的商贩使用了捆绑交易，只提供6个每袋和8个
+
+每袋的包装(包装不可拆分)。 可是小易现在只想购买恰好n个苹果，小易想购
+
+买尽量少的袋数方便携带。如果不能购买恰好n个苹果，小易将不会购买。
+
+输入描述:
+
+输入一个整数n，表示小易想购买n(1 ≤ n ≤ 100)个苹果
+
+输出描述:
+
+输出一个整数表示最少需要购买的袋数，如果不能买恰好n个苹果则输出-1
+
+示例1
+
+输入
+
+复制
+
+20
+
+输出
+
+复制
+
+3
+
+这题就是求6*x+8*y=n时，使得x+y的和最小的情况，保利解法就是遍历所有x和y的组合方式，求得最后的解，第二个就是使用动态规划，一般求最优解的问题都可以使用动态规划来做，dp[i]表示买i个苹果时使用的最少的袋数。
+
+    #include <bits/stdc++.h>
+
+	using namespace std;
+	
+	int main(int argc, char **argv) {
+	    int n;
+	    cin >> n;
+	    vector<int> dp(n + 1, INT_MAX);
+	    dp[6] = 1;
+	    dp[8] = 1;
+	    for (int i = 6; i <= n; ++i) {
+	        if (dp[i] == INT_MAX)
+	            continue;
+	        if (i + 6 <= n) {
+	            dp[i + 6] = min(dp[i] + 1, dp[i + 6]);
+	        }
+	        if (i + 8 <= n)
+	            dp[i + 8] = min(dp[i] + 1, dp[i + 8]);
+	    }
+	    int result = dp[n];
+	    result = (result == INT_MAX) ? -1 : result;
+	    cout << result << endl;
+	
+	    return 0;
+	}
+
+
 
 ## BFS题解
 
