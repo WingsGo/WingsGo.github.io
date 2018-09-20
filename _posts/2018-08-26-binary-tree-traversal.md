@@ -141,3 +141,34 @@ tags:
 	        return result;
 	    }
 	};
+
+
+## 二叉树的层序遍历
+
+LeetCode 199. Binary Tree Right Side View
+
+使用队列进行层序遍历，每次进行下一层遍历时，队列末尾的元素即为right side view;
+
+    class Solution {
+	public:
+	    vector<int> rightSideView(TreeNode *root) {
+	        vector<int> result;
+	        if (nullptr == root)
+	            return result;
+	        queue<TreeNode *> q;
+	        q.push(root);
+	        while (!q.empty()) {
+	            result.push_back(q.back()->val);
+	            size_t size = q.size();
+	            for (size_t i = 0; i < size; ++i) {
+	                auto top_elem = q.front();
+	                q.pop();
+	                if (top_elem->left)
+	                    q.push(top_elem->left);
+	                if (top_elem->right)
+	                    q.push(top_elem->right);
+	            }
+	        }
+	        return result;
+	    }
+	};
