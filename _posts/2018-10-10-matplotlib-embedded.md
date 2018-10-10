@@ -37,6 +37,7 @@ tags:
 &nbsp;&nbsp;&nbsp;&nbsp;Figure对象有两种添加Axes的方式，第一种就是使用
 
 	add_axes([left, bottom, width, height]) #range 0 to 1
+
 &nbsp;&nbsp;&nbsp;&nbsp;对于这种方式的好处是我们可以自由决定Axes在Figure上的位置及大小，如下图所示
 
 ![](https://raw.githubusercontent.com/whuhan2013/ImageRepertory/master/python/figure_12.png)
@@ -44,6 +45,7 @@ tags:
 &nbsp;&nbsp;&nbsp;&nbsp;第二种添加Axes的方式就是使用matplotlib的布局管理器，可以类比PySide2中的layout。
 	
 	axes = add_subplot(nrows, ncols, position)
+
 &nbsp;&nbsp;&nbsp;&nbsp;参数一为子图的总行数，参数二为子图的总列数，参数三为子图的位置，返回值为我们添加的Axes对象。
 
 &nbsp;&nbsp;&nbsp;&nbsp;了解了matplotlib的基本工作原理后，后面对Figure及Axes的具体操作就可以查阅[官方文档](https://matplotlib.org/api/api_overview.html "官方文档")来获取了。
@@ -94,3 +96,8 @@ tags:
 &nbsp;&nbsp;&nbsp;&nbsp;程序运行结果如下
 
 ![](https://img-blog.csdn.net/20181010103435577?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dpbmdXQw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+## 参考文献
+1. [Little_Rookie的博客-matplotlib绘图总结](https://www.cnblogs.com/nxld/p/7435930.html)
+2. [Vamei的博客-matplotlib核心剖析](https://www.cnblogs.com/vamei/archive/2013/01/30/2879700.html)
+3. [matplotlib官方文档](https://matplotlib.org/)
