@@ -8,6 +8,7 @@ tags:
 ## 一、前言
 <!--more-->
 &nbsp;&nbsp;&nbsp;&nbsp;OpenCV是做图像方面研究的必备工具，C++下常用的IDE有Visual Studio、CLion、Qt Creator在图形界面开发方面，Qt Creator无疑是最好的选择。CLion是JetBrains旗下的一款C++IDE，目前只提供30天的试用，不过如果你是学生的话可以去申请学生包，这样就可以免费使用它们家旗下的大多数产品了，包括我觉得最好用的PyCharm。Visual Studio是微软旗下的IDE，但由于他体积庞大，我个人是不怎么喜欢用，除非工作需要开发Windows下的应用程序，需要用到VS的编译器，除此之外我还是喜欢Qt+MinGW或者CLion+MinGW作为工作环境。
+
 &nbsp;&nbsp;&nbsp;&nbsp;言归正传，笔者总结了网上一些博客，自己手动编译OpenCV源码，并在Qt与CLion中配置好了OpenCV库，在这里进行分享，有价值的参考博客我在参考文献中列出，在此十分感谢以下博主的无私分享。
 
 ## 二、软件环境
