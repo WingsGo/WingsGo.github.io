@@ -1,5 +1,5 @@
 ---
-title: YOLOv3训练自己的数据
+title: YOLOv3-Train Your Own Data Step by Step
 key: 20181129
 tags:
 - YOLOv3 CNN Object Localization
