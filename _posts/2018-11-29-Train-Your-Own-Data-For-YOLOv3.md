@@ -143,7 +143,11 @@ tags:
 	names = obj.names  
 	backup = backup/ 
 
-&nbsp;&nbsp;&nbsp;&nbsp;obj.names中存放要标记的物体的名称，每行对应一种类别
+&nbsp;&nbsp;&nbsp;&nbsp;obj.names中存放要标记的物体的名称，每行对应一种类别,这里注意到只指定了图片的路径而没有准备标签的路径,原因在第四节已经解释,标签路径会根据图片路径来寻找,例如:
+
+图片路径为:/home/project/images/test.jpg或/home/project/JEPGimages/test.jpg或/home/project/任意名称/test.jpg
+
+标签路径为:/home/project/labels/test.txt或/home/project/labels/test.txt或/home/project/任意名称/test.txt
 
 	Shredded Cabbage
 
@@ -153,7 +157,7 @@ tags:
 2. 设置classes=1
 3. 设置filters=(classes + 5) * 3，filters的设置依据可以看[这里](https://github.com/AlexeyAB/darknet)
 
-下面提供一个我自己的配置文件，需要修改的地方已经用星号标出，吐过对参数修改还有疑问，可以参考这篇博客
+下面提供一个我自己的配置文件，需要修改的地方已经用星号标出，如果对参数修改还有疑问，可以参考这篇博客
 [YOLOv3: 训练自己的数据](https://blog.csdn.net/lilai619/article/details/79695109)
 	
 	[net]
