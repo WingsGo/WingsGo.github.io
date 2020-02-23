@@ -14,7 +14,7 @@ tags: Linux Socket
 
 和Java的万物皆对象类似，Linux下的一切都是文件，在Linux下是通过Socket进行网络编程的，Socket也是文件描述符的一种，服务端通过打开一个Socket，等待客户端连接后会返回一个新的文件描述符 `fd`，通过对该文件描述符的读写完成Server端和Client端的通信。
 
-![Socket通信流程](../images/linux-socket.png)
+![Socket通信流程](https://sf-zhou.github.io/images/57146ab1ee3c1cdedc5ea738f4ebfea7.svg)
 
 ### Socket编程API
 
@@ -254,6 +254,8 @@ int main(int argc, char** argv) {
 
 ### IO多路复用(epoll)
 Linux中一切都是文件，有文件就有文件的读写，有文件的读写就有IO，在Linux下主要分为两种IO模式，一种是阻塞式IO，一种是非阻塞式IO，阻塞式IO就是线程在进行IO操作时等待，直到调用返回。另一种是非阻塞式IO，即在调用时直接返回，线程可以继续其他操作，但是该线程并不知道IO何时就绪，需要定时检查。
+
+![通信缓存模型](https://sf-zhou.github.io/images/75c22dd97ad9905403a1f494d68ea392.svg)
 
 以在麦当劳点餐为例，阻塞式IO就是你（client）点餐后在取餐处等待，直到食物制作完毕，在这个过程中店员(server)无法做其他的事情。而非阻塞式IO就是你(client)点餐后直接去座位上等待，此时店员(server)可以做其他的事情，例如给下一个顾客服务。
 
@@ -594,3 +596,7 @@ int main(int argc, char** argv) {
 }
 
 ```
+
+### 参考文献
+
+- [Linux Socket 通信与 IO 多路复用](https://sf-zhou.github.io/linux/socket_and_epoll.html)
