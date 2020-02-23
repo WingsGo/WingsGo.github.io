@@ -5,6 +5,9 @@ tags: Linux Socket
 ---
 
 # Linux下Socket编程及IO多路复用
+
+<!--more-->
+
 从快毕业到参与工作半年了，从在校的时候编写一些单机版的PC端软件，到现在进入公司接触分布式系统，进入OLAP的领域，感觉自己也成长了不少。如今由于疫情的影响，在家宅了也快一个月，工作之余也应该把博客捡起来，也算是对自己成长的一个见证吧。
 
 由于笔者在校期间主要做的是Windows下单机的PC端软件的开发，因此这篇博客就从Linux下的Socker编程开始，作为一个转变的分界点开篇。
@@ -111,6 +114,7 @@ tags: Linux Socket
 
 3. IP地址转换
 有三个函数将数字点形式表示的字符串IP地址与32位网络字节顺序的二进制形式的IP地址进行转换
+
 ```
 unsigned long int inet_addr(const char* cp);
 说明：
@@ -134,6 +138,7 @@ int inet_aton(const char* cp, struct in_addr* inp);
     Socket地址是多字节数据，不是以空字符结尾的，这和C语言中的字符串是不同的。Linux提供了两组函数来处理多字节数据，一组以b（byte）开头，是和BSD系统兼容的函数，另一组以mem（内存）开头，是ANSI C提供的函数。
 
 以mem开头的函数有：
+
 ```
 void* memset(void* s，int c，size_t n);
 说明:
@@ -262,6 +267,7 @@ Linux中一切都是文件，有文件就有文件的读写，有文件的读写
 
 #### epoll的核心API
 epoll的核心调用API如下:
+
 ```
 /* Creates an epoll instance.  Returns an fd for the new instance.
    The "size" parameter is a hint specifying the number of file
@@ -315,6 +321,7 @@ EPOLLHUP：表示对应的文件描述符被挂断；
 EPOLLET：    ET的epoll工作模式；
 
 在对打开的文件描述符进行操作时可以使用fcntl函数，该函数的说明如下
+
 ```
 头文件：
 
@@ -491,4 +498,99 @@ int main(int argc, char** argv) {
     return 0;
 }
 ```
-可以使用netcat进行测试，相比于之前的方案，使用epoll可以'并发'地执行任务处理，大大提高服务的并发度。
+
+客户端测试代码
+
+```
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <signal.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <atomic>
+#include <thread>
+#include <chrono>
+#include <iostream>
+
+#define ZERO_OR_RETURN(expr)              \
+    do {                                  \
+        int ret = (expr);                 \
+        if (ret != 0) {                   \
+        printf("%d %d\n", __LINE__, ret); \
+        return ret;                       \
+        }                                 \
+    } while (0);
+
+std::atomic<bool> quit{false};
+std::atomic<int> alive{0};
+
+void doQuit(int) {
+    quit = true;
+    while (alive) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    }
+    exit(0);
+}
+
+int main(int argc, char** argv) {
+    if (argc <= 1) {
+        printf("> Start socket port[%d], thread[%d], data_size[%d]\n", 9999, 10, 100);
+    }
+
+    signal(SIGINT, doQuit);
+
+    int port = argc >= 2 ? std::atoi(argv[1]) : 9999;
+    int thread = argc >= 3 ? std::atoi(argv[2]) : 10;
+    int data_size = argc >= 4 ? std::atoi(argv[3]) : 100;
+
+    std::string data(data_size, '\0');
+    for(auto& ch : data) {
+        ch = rand() % 26 + 'a';
+    }
+
+    std::atomic<int> qps{0};
+    for (int i = 0; i < thread; ++i) {
+        std::thread([&] {
+            std::cout << "> Start thread [" << std::this_thread::get_id() << "]." << std::endl;
+            alive++;
+            struct sockaddr_in client_addr;
+            memset(&client_addr, 0, sizeof(client_addr));
+            client_addr.sin_family = AF_INET;
+            client_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+            client_addr.sin_port = htons(port);
+
+            int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
+            ZERO_OR_RETURN(connect(socket_fd, reinterpret_cast<const sockaddr *>(&client_addr), sizeof(client_addr)));
+            std::string buffer(data);
+            while (!quit) {
+                int writen = 0;
+                while (writen < data_size) {
+                    writen += write(socket_fd, &data[writen], data_size - writen);
+                }
+
+                int read_byte = 0;
+                while (read_byte < data_size) {
+                    read_byte += read(socket_fd, &buffer[read_byte], data_size - read_byte);
+                }
+
+                if (data == buffer) {
+                    qps += 1;
+                }
+            }
+
+            ZERO_OR_RETURN(close(socket_fd));
+            alive--;
+        }).detach();
+    }
+
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        printf("QPS: %d\n", qps.load());
+        qps = 0;
+    }
+}
+
+```
