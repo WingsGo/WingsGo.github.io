@@ -14,7 +14,7 @@ tags: Linux Socket
 
 和Java的万物皆对象类似，Linux下的一切都是文件，在Linux下是通过Socket进行网络编程的，Socket也是文件描述符的一种，服务端通过打开一个Socket，等待客户端连接后会返回一个新的文件描述符 `fd`，通过对该文件描述符的读写完成Server端和Client端的通信。
 
-![Socket通信流程](https://github.com/WingsGo/WingsGo.github.io/blob/master/images/linux-Socket.png)
+![Socket通信流程](../images/linux-socket.png)
 
 ### Socket编程API
 
